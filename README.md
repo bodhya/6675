@@ -1,4 +1,4 @@
-# Decentralized Deal Verification and Price Alerting System
+# Decentralized Deal Verification and Price Alerting System POC
 
 A peer-to-peer deal discovery platform that uses crowd-computing principles to verify deals and provide personalized price alerts without central authority bias.
 
