@@ -93,7 +93,6 @@ Open browser to `http://localhost:8080`
 │   ├── frontend/
 │   │   ├── index.html             # UI layout
 │   │   └── app.js                 # Client-side logic
-│   └── shared/                    # (placeholder for shared types)
 ├── package.json
 └── README.md
 ```
