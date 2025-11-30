@@ -94,18 +94,6 @@ Open browser to `http://localhost:8080`
 │   │   ├── index.html             # UI layout
 │   │   └── app.js                 # Client-side logic
 │   └── shared/                    # (placeholder for shared types)
-├── data/                          # Test datasets
-├── evaluation/                    # Evaluation scripts
-├── project-report/
-│   ├── sections/
-│   │   ├── 1-introduction.md
-│   │   ├── 2-need-finding.md
-│   │   ├── 3-baseline-design.md
-│   │   ├── 4-redesign.md          # (to be created)
-│   │   ├── 5-evaluation-plan.md   # (to be created)
-│   │   ├── 6-evaluation-results.md # (to be created)
-│   │   └── 7-conclusion.md        # (to be created)
-│   └── figures/                   # Diagrams and screenshots
 ├── package.json
 └── README.md
 ```
@@ -189,33 +177,12 @@ Real-time updates via WebSocket on `ws://localhost:3000`:
 - **Average Time**: Time from submission to verification/promotion
 - **Alert Latency**: Time from deal submission to user notification
 
-## Comparative Analysis
-
-| Metric | Centralized Mode | Decentralized Mode |
-|--------|------------------|-------------------|
-| Alert Latency | 10s minimum (demo)<br>4-8h (realistic) | 3-5s (consensus time) |
-| Success Rate | ~60% (if votes reached) | ~95% (if verifiers active) |
-| Quality Control | Vote popularity | Verification consensus |
-| Bias Risk | High (algorithmic) | Low (distributed) |
-
 ## Technology Stack
 
 - **Backend**: Node.js, Express.js, ws (WebSocket)
 - **Frontend**: Vanilla JavaScript, HTML5, CSS3
 - **Data Storage**: In-memory (Map objects) for POC
 - **Real-Time**: WebSocket for bidirectional communication
-
-## Project Report
-
-Full academic report available in `/project-report/sections/`:
-
-1. **Introduction** - Problem statement, target users, existing tech analysis
-2. **Need-Finding Analysis** - Heuristic evaluation of centralized platforms
-3. **Baseline Design** - Implementation and measurements of centralized model
-4. **Redesign through Refinements** - Decentralized consensus implementation
-5. **Evaluation Plan** - Qualitative and quantitative evaluation methodology
-6. **Evaluation Results** - Experimental results and user study findings
-7. **Concluding Remarks** - Lessons learned and future work
 
 ## Configuration
 
@@ -229,47 +196,3 @@ state.config = {
   // promotionDelaySimulated: 14400000, // 4 hours realistic
 }
 ```
-
-## Future Enhancements
-
-- **Blockchain Integration**: On-chain reputation for permanence
-- **Automated Verification**: Price scrapers to supplement manual verification
-- **Mobile Application**: Native apps for better push notifications
-- **Machine Learning**: Predict deal quality from historical data
-- **IPFS Storage**: Truly decentralized data storage
-- **Reputation Economy**: Token rewards for accurate verifications
-
-## Research Context
-
-This project demonstrates Internet computing concepts:
-
-- **Peer-to-Peer Computing**: Simulated P2P network using WebSockets
-- **Crowd Computing**: Consensus-based verification by user community
-- **Distributed Systems**: Fault tolerance, consensus mechanisms
-- **Real-Time Systems**: WebSocket event-driven architecture
-- **Reputation Systems**: Trust management without central authority
-
-## Contributing
-
-This is an academic proof-of-concept. For production use, consider:
-
-- Persistent database (PostgreSQL, MongoDB)
-- True P2P networking (libp2p, WebRTC)
-- Authentication/authorization (JWT, OAuth)
-- Rate limiting and spam prevention
-- Comprehensive testing suite
-- Production deployment (Docker, Kubernetes)
-
-## License
-
-MIT License - Academic/Educational Use
-
-## Authors
-
-Academic project for Internet Computing course
-
-## Acknowledgments
-
-- Inspired by Slickdeals, Reddit deal communities, and CamelCamelCamel
-- P2P concepts from BitTorrent and IPFS
-- Consensus mechanisms from blockchain research
