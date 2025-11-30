@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dealbuster</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #a0b0c0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .mode-toggle button {
+            margin-left: auto;
+        }
+
+        .mode-badge {
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .mode-centralized {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .mode-decentralized {
+            background: #51cf66;
+            color: white;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #666;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            width: 100%;
+        }
+
+        button:hover {
+            background: #5568d3;
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #868e96;
+        }
+
+        .btn-secondary:hover {
+            background: #6c757d;
+        }
+
+        .btn-success {
+            background: #40c057;
+        }
+
+        .btn-success:hover {
+            background: #40c057;
+        }
+
+        .btn-danger {
+            background: #ff6b6b;
+        }
+
+        .btn-danger:hover {
+            background: #fa5252;
+        }
+
+        .user-info {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .user-info p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .reputation {
+            font-weight: 700;
+            color: #667eea;
+            font-size: 24px;
+        }
+
+        .deals-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .deal-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .deal-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .deal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+        }
+
+        .deal-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .deal-price {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+        }
+
+        .current-price {
+            font-size: 24px;
+            font-weight: 700;
+            color: #51cf66;
+        }
+
+        .original-price {
+            font-size: 16px;
+            color: #868e96;
+            text-decoration: line-through;
+        }
+
+        .discount {
+            background: #ff6b6b;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .deal-meta {
+            display: flex;
+            gap: 15px;
+            margin: 10px 0;
+            font-size: 13px;
+            color: #666;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: #fff3bf;
+            color: #856404;
+        }
+
+        .status-promoted {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+
+        .status-verified {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-rejected {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .verifications {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .verification-item {
+            font-size: 13px;
+            padding: 5px 0;
+            color: #666;
+        }
+
+        .verification-valid {
+            color: #51cf66;
+        }
+
+        .verification-invalid {
+            color: #ff6b6b;
+        }
+
+        .deal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .deal-actions button {
+            flex: 1;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .stat-box {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .alert-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+            font-size: 13px;
+        }
+
+        .alert-item p {
+            margin: 3px 0;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #51cf66;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-width: 400px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .notification h3 {
+            margin-bottom: 10px;
+        }
+
+        .notification p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background: #868e96;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+
+        .tab.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .connection-status {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+
+        .connected {
+            background: #51cf66;
+        }
+
+        .disconnected {
+            background: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Dealbuster</h1>
+            <p>A Peer-to-Peer Deal Discovery and Verification Platform</p>
+            <div class="mode-toggle">
+                <span><span class="connection-status disconnected" id="wsStatus"></span>Server Status</span>
+                <span id="currentMode" class="mode-badge mode-centralized">Centralized Mode</span>
+                <button id="toggleModeBtn" style="width: auto; padding: 8px 16px;">Switch to Decentralized</button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- User Login -->
+                <div class="card">
+                    <h2>User Login</h2>
+                    <div id="loginForm">
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" id="username" placeholder="Enter username">
+                        </div>
+                        <button id="loginBtn">Login / Register</button>
+                    </div>
+                    <div id="userInfo" class="hidden">
+                        <div class="user-info">
+                            <p><strong id="displayUsername"></strong></p>
+                            <p>Reputation: <span class="reputation" id="displayReputation">100</span></p>
+                            <p style="font-size: 12px; color: #666;">ID: <span id="displayUserId"></span></p>
+                        </div>
+                        <button id="logoutBtn" class="btn-secondary">Logout</button>
+                    </div>
+                </div>
+
+                <!-- Statistics -->
+                <div class="card">
+                    <h2>Statistics</h2>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-value" id="statTotalDeals">0</div>
+                            <div class="stat-label">Total Deals</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="statVerified">0</div>
+                            <div class="stat-label">Verified</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="statAvgTime">0s</div>
+                            <div class="stat-label">Avg Time</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="statUsers">0</div>
+                            <div class="stat-label">Users</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main">
+                <div class="tabs">
+                    <button class="tab active" data-tab="deals">All Deals</button>
+                    <button class="tab" data-tab="submit">Submit Deal</button>
+                    <button class="tab" data-tab="alerts">My Alerts</button>
+                </div>
+
+                <!-- Deals Tab -->
+                <div id="dealsTab" class="tab-content">
+                    <div class="card">
+                        <h2>Deal Feed</h2>
+                        <div id="dealsList" class="deals-list">
+                            <p style="color: #666; text-align: center; padding: 40px;">No deals yet. Submit one to get started!</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Deal Tab -->
+                <div id="submitTab" class="tab-content hidden">
+                    <div class="card">
+                        <h2>Submit New Deal</h2>
+                        <form id="submitDealForm">
+                            <div class="form-group">
+                                <label>Deal Title *</label>
+                                <input type="text" id="dealTitle" placeholder="e.g., RTX 4080 GPU" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Current Price ($) *</label>
+                                <input type="number" id="dealPrice" step="0.01" placeholder="e.g., 899.99" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Original Price ($)</label>
+                                <input type="number" id="dealOriginalPrice" step="0.01" placeholder="e.g., 1199.99">
+                            </div>
+                            <div class="form-group">
+                                <label>Product URL *</label>
+                                <input type="url" id="dealUrl" placeholder="https://example.com/product" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Category</label>
+                                <select id="dealCategory">
+                                    <option>Electronics</option>
+                                    <option>Computers</option>
+                                    <option>Gaming</option>
+                                    <option>Home & Garden</option>
+                                    <option>Clothing</option>
+                                    <option>Books</option>
+                                    <option>Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-success">Submit Deal</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Alerts Tab -->
+                <div id="alertsTab" class="tab-content hidden">
+                    <div class="card">
+                        <h2>Price Alerts</h2>
+                        <form id="createAlertForm">
+                            <div class="form-group">
+                                <label>Product Keywords *</label>
+                                <input type="text" id="alertKeywords" placeholder="e.g., RTX 4080" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Maximum Price ($) *</label>
+                                <input type="number" id="alertMaxPrice" step="0.01" placeholder="e.g., 900.00" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Minimum Verifications</label>
+                                <input type="number" id="alertMinVerifications" value="3" min="1" max="10">
+                            </div>
+                            <button type="submit" class="btn-success">Create Alert</button>
+                        </form>
+                        <div style="margin-top: 20px;">
+                            <h3 style="margin-bottom: 10px; font-size: 16px;">Active Alerts</h3>
+                            <div id="alertsList">
+                                <p style="color: #666; font-size: 14px;">No alerts yet.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
